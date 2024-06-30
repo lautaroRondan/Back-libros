@@ -1,16 +1,12 @@
 {
   "compilerOptions": {
-    "target": "ES2020",                        // Establece la versión de JavaScript que quieres que TypeScript genere.
-    "module": "commonjs",                      // Establece el sistema de módulos a CommonJS, que es el sistema usado por Node.js.
-    "lib": ["ES2020", "DOM"],                  // Define las bibliotecas que TypeScript debe incluir. Aquí se incluyen las características ES2020 y DOM para trabajar con el navegador.
-    "allowJs": true,                           // Permite que los archivos JavaScript se incluyan en el proyecto.
-    "outDir": "./dist",                        // El directorio donde se generarán los archivos compilados.
-    "rootDir": "./src",                        // El directorio raíz de los archivos fuente.
-    "strict": true,                            // Habilita todas las comprobaciones estrictas de TypeScript.
-    "esModuleInterop": true,                   // Permite importar módulos CommonJS y ES Modules de manera más sencilla.
-    "skipLibCheck": true,                      // Omite la verificación de tipo de los archivos de declaración (d.ts) para mejorar la velocidad de compilación.
-    "forceConsistentCasingInFileNames": true   // Fuerza el uso de mayúsculas y minúsculas consistentes en los nombres de archivos.
+    "target": "es6",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "typeRoots": ["./node_modules/@types", "./src/types"]
   },
-  "include": ["src"],                          // Especifica los archivos que el compilador debe incluir en el proyecto.
-  "exclude": ["node_modules", "**/*.spec.ts"]  // Excluye los directorios y archivos que no deben ser compilados.
+  "include": ["src/**/*.ts", "src/types/**/*.d.ts"]
 }

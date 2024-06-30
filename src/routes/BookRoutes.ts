@@ -1,10 +1,11 @@
 import { Router } from 'express';
-import { addBook, getBooks } from '../controllers/BookController';
+import { searchBookByISBN, addBookManually, getBooks } from '../controllers/BookController';
 import authMiddleware from '../middlewares/authMiddleware';
 
 const router = Router();
 
-router.post('/books', authMiddleware, addBook);
+router.post('/search',authMiddleware, searchBookByISBN);
+router.post('/add', authMiddleware, addBookManually);
 router.get('/books', authMiddleware, getBooks);
 
 export default router;

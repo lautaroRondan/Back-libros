@@ -11,7 +11,7 @@ interface IEstadoLectura {
   leido: boolean;
 }
 
-interface IBook extends Document {
+interface IUserBook extends Document {
   isbn: string;
   titulo: string;
   autor: string;
@@ -22,12 +22,12 @@ interface IBook extends Document {
   estadoLectura: IEstadoLectura[];
 }
 
-const bookSchema = new Schema<IBook>({
+const bookSchema = new Schema<IUserBook>({
   isbn: { type: String, required: true },
   titulo: { type: String, required: true },
   autor: { type: String, required: true },
   editorial: { type: String, required: true },
-  formato: { type: String, required: true },
+  formato: { type: String },
   usuarioCreador: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   reseñas: [
     {
@@ -44,4 +44,4 @@ const bookSchema = new Schema<IBook>({
   ]
 });
 
-export default model<IBook>('Book', bookSchema);
+export default model<IUserBook>('Book', bookSchema);

@@ -1,14 +1,8 @@
 import { Schema, model, Document } from 'mongoose';
 
 interface IReview {
-  usuario: string;
   texto: string;
-  puntuacion: number;
-}
-
-interface IEstadoLectura {
-  usuario: string;
-  leido: boolean;
+  puntuacion: number; 
 }
 
 interface IUserBook extends Document {
@@ -16,32 +10,26 @@ interface IUserBook extends Document {
   titulo: string;
   autor: string;
   editorial: string;
-  formato: string;
+  formato?: string;
   usuarioCreador: string;
   reseñas: IReview[];
-  estadoLectura: IEstadoLectura[];
+  estadoLectura: boolean; 
 }
 
-const bookSchema = new Schema<IUserBook>({
+const reviewSchema = new Schema<IReview>({
+  texto: { type: String },
+  puntuacion: { type: Number, min: 1, max: 5 }
+});
+
+const userBookSchema = new Schema<IUserBook>({
   isbn: { type: String, required: true },
   titulo: { type: String, required: true },
   autor: { type: String, required: true },
   editorial: { type: String, required: true },
   formato: { type: String },
   usuarioCreador: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  reseñas: [
-    {
-      usuario: { type: Schema.Types.ObjectId, ref: 'User' },
-      texto: String,
-      puntuacion: Number
-    }
-  ],
-  estadoLectura: [
-    {
-      usuario: { type: Schema.Types.ObjectId, ref: 'User' },
-      leido: Boolean
-    }
-  ]
+  reseñas: [reviewSchema],
+  estadoLectura: { type: Boolean, required: true }
 });
 
-export default model<IUserBook>('Book', bookSchema);
+export default model<IUserBook>('UserBook', userBookSchema);

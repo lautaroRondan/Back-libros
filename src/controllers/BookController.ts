@@ -73,3 +73,39 @@ export const getBooks = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Error getting books', error });
   }
 };
+
+export const updateUserBook = async (req: Request, res: Response) => {
+  const { id } = req.params; // ID del UserBook
+  const { formato, reseñas, estadoLectura } = req.body;
+  const usuarioCreador = req.user?.id;
+
+  try {
+    let userBook = await UserBook.findOne({ _id: id, usuarioCreador });
+    if (!userBook) {
+      return res.status(404).json({ message: 'User book not found' });
+    }
+
+    // Actualiza solo los campos permitidos
+    if (formato) {
+      userBook.formato = formato;
+    }
+
+    if (reseñas) {
+      userBook.reseñas = reseñas.map((resena: { texto: string; puntuacion: number }) => ({
+        ...resena,
+        usuario: usuarioCreador // Asigna el usuarioCreador a cada reseña
+      }));
+    }
+
+    if (estadoLectura !== undefined) {
+      userBook.estadoLectura = estadoLectura;
+    }
+
+    await userBook.save();
+
+    res.json(userBook);
+  } catch (error) {
+    console.error('Error updating user book:', error);
+    res.status(500).json({ message: 'Error updating user book', error });
+  }
+};

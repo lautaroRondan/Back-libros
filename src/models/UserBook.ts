@@ -14,6 +14,7 @@ interface IUserBook extends Document {
   usuarioCreador: string;
   reseñas: IReview[];
   estadoLectura: boolean; 
+  imageUrl: string;
 }
 
 const reviewSchema = new Schema<IReview>({
@@ -29,7 +30,8 @@ const userBookSchema = new Schema<IUserBook>({
   formato: { type: String },
   usuarioCreador: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   reseñas: [reviewSchema],
-  estadoLectura: { type: Boolean, required: true }
+  estadoLectura: { type: Boolean, required: true },
+  imageUrl: {type: String}
 });
 
 export default model<IUserBook>('UserBook', userBookSchema);

@@ -4,11 +4,11 @@ import cloudinary from './cloudinaryConfig';
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  params: {
-    folder: 'Libros', // Cambia esto al nombre del folder donde quieres almacenar las imágenes
-    format: async () => 'jpeg', // Puedes cambiar el formato si lo deseas
-    public_id: (req, file) => file.originalname,
-  },
+  params: (req, file) => ({
+    public_id: file.originalname.split('.')[0],
+    folder: 'Libros',
+    transformation: [{ format: 'jpeg' }] // Definir la transformación aquí si es necesario
+  }),
 });
 
 const upload = multer({ storage: storage });

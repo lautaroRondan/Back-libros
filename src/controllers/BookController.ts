@@ -67,12 +67,48 @@ export const addBookManually = async (req: Request, res: Response) => {
 
 export const getBooks = async (req: Request, res: Response) => {
   try {
-    const userBooks = await UserBook.find({ usuarioCreador: req.user?.id }).populate('usuarioCreador', 'username');
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ message: 'No autorizado' });
+    }
+
+    console.log('ID del usuario autenticado:', req.user.id);
+
+    const userBooks = await UserBook.find({ usuarioCreador: req.user.id });
+
+    console.log('Libros encontrados para el ID', req.user.id, ':', userBooks);
+
     res.json(userBooks);
   } catch (error) {
+    console.error('Error al obtener los libros:', error);
     res.status(500).json({ message: 'Error getting books', error });
   }
 };
+
+export const getBooksByAuthToken = async (req: Request, res: Response) => {
+  try {
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ message: 'No autorizado' });
+    }
+
+    const userId = req.user.id;
+    console.log('Buscando libros para el ID del usuario autenticado:', userId);
+
+    const userBooks = await UserBook.find({ usuarioCreador: userId });
+
+    console.log('Libros encontrados para el ID', userId, ':', userBooks);
+
+    if (userBooks.length === 0) {
+      return res.status(404).json({ message: 'No se encontraron libros para este usuario' });
+    }
+
+    res.json(userBooks);
+  } catch (error) {
+    console.error('Error al obtener los libros por token:', error);
+    res.status(500).json({ message: 'Error getting books by token', error });
+  }
+};
+
+
 
 export const updateUserBook = async (req: Request, res: Response) => {
   const { id } = req.params; // ID del UserBook

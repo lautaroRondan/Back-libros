@@ -24,14 +24,14 @@ const reviewSchema = new Schema<IReview>({
 
 const userBookSchema = new Schema<IUserBook>({
   isbn: { type: String, required: true },
-  titulo: { type: String, required: true },
-  autor: { type: String, required: true },
-  editorial: { type: String, required: true },
+  titulo: { type: String, },
+  autor: { type: String, },
+  editorial: { type: String,  },
   formato: { type: String },
   usuarioCreador: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   reseñas: [reviewSchema],
-  estadoLectura: { type: Boolean, required: true },
-  imageUrl: {type: String}
+  estadoLectura: { type: Boolean },
+  imageUrl: { type: String }
 });
 
 export default model<IUserBook>('UserBook', userBookSchema);

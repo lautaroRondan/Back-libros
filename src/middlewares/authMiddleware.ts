@@ -14,10 +14,10 @@ const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => 
   try {
     const decoded = jwt.verify(token, 'your_jwt_secret');
     req.user = decoded;
+    console.log('Usuario autenticado:', req.user);
     next();
   } catch (error) {
     res.status(401).json({ message: 'Token no válido' });
   }
 };
-
 export default authMiddleware;
